@@ -1,9 +1,32 @@
 Rails.application.routes.draw do
+
+  devise_for :users
+
+  namespace :api, defaults: {format: 'json'} do
+
+    namespace :v1 do
+
+      devise_scope :user do
+        resources :users, only: [:none] do
+          collection do
+            post      'sign_up',            controller: :registrations ,  action: :create
+            post      'sign_in',            controller: :sessions,        action: :create
+            post      'confirmation',       controller: :confirmations,   action: :create
+            get       'confirmation',       controller: :confirmations,   action: :show
+          end
+        end
+      end
+
+      resource  :profile
+    end
+  end
+
+  match 'api/v1/*unmatched_route', :to => 'application#raise_routing_exception', via: :all, defaults: {format: 'json'}
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
