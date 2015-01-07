@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable #:validatable
 
   has_one :user_authentication_token, dependent: :destroy
+
+  validates :phone_no, presence: true, uniqueness: true
+  validates :country_code, presence: true
 end
