@@ -3,6 +3,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
   def create
     logger.info("User request for signup : #{params}")
+    # Find user by phone_no and country_code
     @resource = User.find_by(create_params)
     unless @resource
       @resource = User.new(create_params)
