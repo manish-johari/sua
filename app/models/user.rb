@@ -9,4 +9,5 @@ class User < ActiveRecord::Base
   validates :phone_no, presence: true
   validates :phone_no, uniqueness: { scope: :country_code }
   validates :country_code, presence: true
+
 end
