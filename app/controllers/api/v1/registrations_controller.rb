@@ -2,17 +2,24 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token
 
   def create
-    @resource = User.new(create_params(params))
-    if @resource.save
-      @auth_token = @resource.create_user_authentication_token(:token => Devise.friendly_token).token
-      render status: 201
+    logger.info("User request for signup : #{params}")
+    @resource = User.find_by(create_params)
+    unless @resource
+      @resource = User.new(create_params)
+      if @resource.save
+        # send verification code via sms
+        render status: 201
+      else
+        warden.custom_failure!
+        render status: 422
+      end
     else
-      warden.custom_failure!
-      render status: 422
+      # send verification code via sms
+      render status: 201
     end
   end
 
-  def create_params(params)
+  def create_params
     params.require(:user).permit(:phone_no, :country_code)
   end
 
