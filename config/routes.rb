@@ -10,8 +10,6 @@ Rails.application.routes.draw do
         resources :users, only: [:none] do
           collection do
             post      'sign_up',            controller: :registrations ,  action: :create
-            post      'sign_in',            controller: :sessions,        action: :create
-            post      'confirmation',       controller: :confirmations,   action: :create
             get       'confirmation',       controller: :confirmations,   action: :show
           end
         end

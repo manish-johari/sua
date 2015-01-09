@@ -11,10 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150103112217) do
+ActiveRecord::Schema.define(version: 20150109120757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attachments", force: true do |t|
+    t.string   "type"
+    t.string   "media_file_name"
+    t.string   "media_content_type"
+    t.integer  "media_file_size"
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "profiles", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "status"
+    t.date     "date_of_birth"
+    t.string   "gender"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_authentication_tokens", force: true do |t|
     t.string   "token"
@@ -25,6 +46,7 @@ ActiveRecord::Schema.define(version: 20150103112217) do
 
   create_table "users", force: true do |t|
     t.string   "email",                default: "", null: false
+    t.string   "encrypted_password",   default: "", null: false
     t.integer  "country_code",         default: 1,  null: false
     t.string   "phone_no",             default: "", null: false
     t.integer  "sign_in_count",        default: 0,  null: false
