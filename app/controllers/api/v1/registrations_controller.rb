@@ -45,7 +45,7 @@ private
     puts "sending sms token #{token} to #{phone_no}"
 
     @twilio_client = Twilio::REST::Client.new APP_CONFIG[:TWILIO_SID], APP_CONFIG[:TWILIO_TOKEN]
-    @twilio_client.account.sms.messages.create(
+    @twilio_client.account.messages.create(
       :from => "+1#{APP_CONFIG[:TWILIO_PHONE_NUMBER]}",
       :to => phone_no,
       :body => "Ahoy from See You All!. Enter #{token} to verify your account. This is a 1-time message."
