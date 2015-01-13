@@ -1,0 +1,14 @@
+defaults: &defaults
+  :TWILIO_SID: ""
+  :TWILIO_TOKEN: ""
+  :TWILIO_PHONE_NUMBER: ""
+  :APP_DOMAIN: "localhost:3000"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

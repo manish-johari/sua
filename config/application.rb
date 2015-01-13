@@ -26,5 +26,9 @@ module Sua
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+    config.autoload_paths << Rails.root.join('lib')
+    config.action_controller.action_on_unpermitted_parameters = :raise
   end
 end
+
+APP_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/keys.yml")[::Rails.env]

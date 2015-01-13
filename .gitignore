@@ -14,3 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+dump.rdb
+/config/database.yml
+/config/keys.yml
+.ruby-version

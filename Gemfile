@@ -40,6 +40,8 @@ gem 'spring',        group: :development
 
 gem 'devise', '~> 3.4.1'
 gem 'paperclip', '~> 4.2.0'
+gem 'phony'
+gem 'twilio-ruby'
 group :development, :test do
     gem 'pry-byebug'
     gem 'pry-rails'
