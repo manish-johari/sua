@@ -42,7 +42,17 @@ gem 'devise', '~> 3.4.1'
 gem 'paperclip', '~> 4.2.0'
 gem 'phony'
 gem 'twilio-ruby'
+
 group :development, :test do
     gem 'pry-byebug'
     gem 'pry-rails'
+    gem 'rspec-rails'
+    gem 'shoulda-matchers'
+    gem 'factory_girl_rails'
+    gem 'capybara'
+end
+
+group :test do
+  gem "database_cleaner"
+  gem "email_spec"
 end
