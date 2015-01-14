@@ -9,7 +9,7 @@ RSpec.describe User, :type => :model do
   end
 
   it "should not be valid" do
-    expect(FactoryGirl.build(:user, phone_no: "").valid?).to be_falsey
+    expect(FactoryGirl.build(:user, phone_num: "").valid?).to be_falsey
   end
 
 end

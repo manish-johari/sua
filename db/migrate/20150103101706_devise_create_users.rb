@@ -5,7 +5,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
       t.integer :country_code, null: false, default: 1
-      t.string :phone_no, null: false, default: ""
+      t.integer :phone_num, null: false, limit: 8
+      t.integer :full_phone_num, limit: 8
 
       ## Recoverable
       # t.string   :reset_password_token

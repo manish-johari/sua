@@ -3,7 +3,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
   def create
     logger.info("User request for signup : #{params}")
-    # Find user by phone_no and country_code
+    # Find user by phone_num and country_code
     @resource = User.find_by(create_params)
     @verification_token = get_verification_token
     new_token = Devise.token_generator.digest(User, :confirmation_token, @verification_token)
@@ -13,7 +13,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
         @resource.confirm!
         set_confirmation_token new_token
         # send verification code via sms
-        send_sms "#{create_params[:country_code] + create_params[:phone_no]}", @verification_token
+        send_sms "#{create_params[:country_code] + create_params[:phone_num]}", @verification_token
         @auth_token = @resource.create_user_authentication_token(:token => Devise.friendly_token).token
         render status: 201
       else
@@ -23,7 +23,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     else
       set_confirmation_token new_token
       # send verification code via sms
-      send_sms "#{create_params[:country_code] + create_params[:phone_no]}", @verification_token
+      send_sms "#{create_params[:country_code] + create_params[:phone_num]}", @verification_token
       @auth_token = @resource.create_user_authentication_token(:token => Devise.friendly_token).token
       render status: 201
     end
@@ -32,7 +32,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 private
 
   def create_params
-    params.require(:user).permit(:phone_no, :country_code)
+    params[:user][:phone_num].gsub!(/\D/, '')
+    params.require(:user).permit(:phone_num, :country_code)
   end
 
   def get_verification_token
@@ -44,13 +45,13 @@ private
     @resource.save
   end
 
-  def send_sms phone_no, token
-    puts "sending sms token #{token} to #{phone_no}"
+  def send_sms phone_num, token
+    puts "sending sms token #{token} to #{phone_num}"
 
     @twilio_client = Twilio::REST::Client.new APP_CONFIG[:TWILIO_SID], APP_CONFIG[:TWILIO_TOKEN]
     @twilio_client.account.messages.create(
       :from => "+1#{APP_CONFIG[:TWILIO_PHONE_NUMBER]}",
-      :to => phone_no,
+      :to => phone_num,
       :body => "Ahoy from See You All!. Enter Confirmation Token: #{token} to verify your account. This is a 1-time message."
     )
   end

@@ -45,11 +45,12 @@ ActiveRecord::Schema.define(version: 20150109120757) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                default: "", null: false
-    t.string   "encrypted_password",   default: "", null: false
-    t.integer  "country_code",         default: 1,  null: false
-    t.string   "phone_no",             default: "", null: false
-    t.integer  "sign_in_count",        default: 0,  null: false
+    t.string   "email",                          default: "", null: false
+    t.string   "encrypted_password",             default: "", null: false
+    t.integer  "country_code",                   default: 1,  null: false
+    t.integer  "phone_num",            limit: 8,              null: false
+    t.integer  "full_phone_num",       limit: 8
+    t.integer  "sign_in_count",                  default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
