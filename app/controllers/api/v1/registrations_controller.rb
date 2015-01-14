@@ -10,9 +10,11 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     unless @resource
       @resource = User.new(create_params)
       if @resource.save
+        @resource.confirm!
         set_confirmation_token new_token
         # send verification code via sms
         send_sms "#{create_params[:country_code] + create_params[:phone_no]}", @verification_token
+        @auth_token = @resource.create_user_authentication_token(:token => Devise.friendly_token).token
         render status: 201
       else
         warden.custom_failure!
@@ -22,6 +24,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       set_confirmation_token new_token
       # send verification code via sms
       send_sms "#{create_params[:country_code] + create_params[:phone_no]}", @verification_token
+      @auth_token = @resource.create_user_authentication_token(:token => Devise.friendly_token).token
       render status: 201
     end
   end
@@ -48,7 +51,7 @@ private
     @twilio_client.account.messages.create(
       :from => "+1#{APP_CONFIG[:TWILIO_PHONE_NUMBER]}",
       :to => phone_no,
-      :body => "Ahoy from See You All!. Enter #{token} to verify your account. This is a 1-time message."
+      :body => "Ahoy from See You All!. Enter Confirmation Token: #{token} to verify your account. This is a 1-time message."
     )
   end
 

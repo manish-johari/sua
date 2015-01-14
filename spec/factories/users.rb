@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence :phone_no do |n|
       "123456789#{n}"
     end
-    country_code "12345678"
+    country_code "+91"
   end
 
 end
